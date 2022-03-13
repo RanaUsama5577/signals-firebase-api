@@ -1,0 +1,14 @@
+import { Router } from 'express'
+
+import { postSignals } from '../controllers/signals.js'
+import { postUser } from '../controllers/users.js'
+import { getGuides } from '../controllers/guides.js'
+import { getStates } from '../controllers/states.js'
+import { signalValidation,userValidation } from '../validation/index.js'
+
+export const routes = Router()
+
+routes.post('/createSignal',signalValidation, postSignals)
+routes.post('/RegisterUser',userValidation, postUser)
+routes.get('/getGuides',getGuides)
+routes.get('/getStates',getStates)
