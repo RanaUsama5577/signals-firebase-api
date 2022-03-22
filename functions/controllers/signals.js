@@ -35,7 +35,7 @@ export const GetAllSignals = async (req, res, next) => {
   var user = ""
   //Get User
   const authorization = req.header('Authorization')
-  auth.verifyIdToken(authorization)
+  await auth.verifyIdToken(authorization)
   .then((decodedToken) => {
     const uid = decodedToken.uid;
     user = await GetUserFromId(uid)
