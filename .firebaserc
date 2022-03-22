@@ -1,6 +1,7 @@
 {
   "projects": {
-    "default": "crypto-signals-dev"
+    "default": "crypto-signals-dev",
+    "prod": "crypto-signals-prod"
   },
   "targets": {}
 }
