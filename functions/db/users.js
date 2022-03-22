@@ -35,3 +35,14 @@ export const RegisterUser = async (content) => {
     })
 }
   
+export const GetUserFromId = async (userId)=>{
+  await db.collection("users").doc(userId).get()
+  .then(function(docSnapshot){
+    if(docSnapshot.exists){
+      return docSnapshot.data()
+    }
+    else{
+      return null
+    }
+  })
+}

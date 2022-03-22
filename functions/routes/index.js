@@ -1,6 +1,6 @@
 import { Router } from 'express'
 
-import { postSignals } from '../controllers/signals.js'
+import { postSignals,GetAllSignals } from '../controllers/signals.js'
 import { postUser } from '../controllers/users.js'
 import { getGuides } from '../controllers/guides.js'
 import { getStates } from '../controllers/states.js'
@@ -12,3 +12,4 @@ routes.post('/createSignal',signalValidation, postSignals)
 routes.post('/RegisterUser',userValidation, postUser)
 routes.get('/getGuides',getGuides)
 routes.get('/getStates',getStates)
+routes.get('/getAllSignals',GetAllSignals)
