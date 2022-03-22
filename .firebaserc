@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "vba-crypto-signals"
-  }
+    "default": "crypto-signals-dev"
+  },
+  "targets": {}
 }
