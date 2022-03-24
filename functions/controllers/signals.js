@@ -1,6 +1,7 @@
 import {CreateSignals,GetSignals} from '../services/signals.js'
 import { validationResult  } from 'express-validator';
 import {GetUserFromId} from "../db/users.js"
+import {auth} from "../config.js"
 /*
  * call other imported services, or same service but different functions here if you need to
 */
@@ -32,13 +33,16 @@ export const postSignals = async (req, res, next) => {
 
 export const GetAllSignals = async (req, res, next) => {
   const content = req.query
+  console.log("content",content)
   var user = ""
   //Get User
-  const authorization = req.header('Authorization')
+  const authorization = req.header('Authorization')??""
   await auth.verifyIdToken(authorization)
-  .then((decodedToken) => {
+  .then(async(decodedToken) => {
     const uid = decodedToken.uid;
+    
     user = await GetUserFromId(uid)
+    
     if(user == null){
       var data = {
          error: "User not found",
@@ -49,13 +53,13 @@ export const GetAllSignals = async (req, res, next) => {
   })
   .catch((error) => {
    var data = {
-      error: e.message,
+      error: error.message,
       status: false,
     }
     res.status(401).send(data)
   });
   //Get Signals   
-  var limit = content.limit??20
+  var limit = parseInt(content.limit??20)
   var DocId = content.lastDocId??""
   try {
     var response = await GetSignals(limit,DocId,user)

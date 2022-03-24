@@ -36,8 +36,10 @@ export const RegisterUser = async (content) => {
 }
   
 export const GetUserFromId = async (userId)=>{
-  await db.collection("users").doc(userId).get()
+  console.log("userId",userId)
+  return await db.collection("users").doc(userId).get()
   .then(function(docSnapshot){
+    
     if(docSnapshot.exists){
       return docSnapshot.data()
     }

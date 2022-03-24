@@ -1,6 +1,7 @@
 import { addSignalInDb } from '../db/signals.js'
 import { getSignalsFromDb } from '../db/signals.js'
 import {messaging} from "../config.js"
+import fetch from 'node-fetch'
 
 
 export const CreateSignals = async (content) => {
@@ -46,7 +47,6 @@ export const GetCoinPrice = async (currencies,exchangeCurrency) => {
         "Content-Type": "application/json",
     },
   });
-  const content = await rawResponse.json();
-  console.log(content);
+  return await rawResponse.json();
 }
 

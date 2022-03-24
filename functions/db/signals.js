@@ -22,17 +22,21 @@ export const getSignalsFromDb = async (limit,lastDocId,user) => {
   if(lastDocId != ""){
     var lastDoc = await db.collection("signals").doc(lastDocId).get()
     if(lastDoc.exists){
-      list.startAt(lastDoc)
+      list  = list.startAfter(lastDoc)
     }
   }
+  console.log("limit",limit)
   list = await list.limit(limit).get()
+  console.log("list.size",list.size)
   var data = []
-  var currencies = list.docs(item=>item.data().coinId)
+  var currencies = list.docs.map(item=>item.data().coinId)
   var prices = await GetCoinPrice(currencies,"usd")
+
   list.forEach(function(doc){
     var value = doc.data()
-    var price =  prices[value.coinId].usd
+    var price =  prices[value.coinId]==undefined?0:prices[value.coinId].usd??0
     var originalval = {
+      doc_id:doc.id,
       coinId:value.coinId,
       coinPrice:price,
       subscriptionType:user.subscriptionType,
@@ -43,6 +47,7 @@ export const getSignalsFromDb = async (limit,lastDocId,user) => {
       signalTimestamp:value.signalTimestamp,
     }
     var fakeval = {
+      doc_id:doc.id,
       coinId:value.coinId,
       coinPrice:price,
       subscriptionType:user.subscriptionType,
