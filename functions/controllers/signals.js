@@ -7,6 +7,35 @@ import {auth} from "../config.js"
 */
 export const postSignals = async (req, res, next) => {
   const content = req.body
+  var user = ""
+  const authorization = req.header('Authorization')??""
+  await auth.verifyIdToken(authorization)
+  .then(async(decodedToken) => {
+    const uid = decodedToken.uid;
+    user = await GetUserFromId(uid)
+    if(user == null){
+      var data = {
+         error: "User not found",
+         status: false,
+       }
+       res.status(401).send(data)
+    }
+    else if(!user.isAdmin){
+      var data = {
+        error: "Only admin user can access this api",
+        status: false,
+      }
+      res.status(401).send(data)
+    }
+  })
+  .catch((error) => {
+   var data = {
+      error: error.message,
+      status: false,
+    }
+    res.status(401).send(data)
+  });
+
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json(
