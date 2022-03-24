@@ -18,3 +18,10 @@ export const userValidation = [
     check('os').isNumeric().withMessage('Os is number field').notEmpty().withMessage('Os is required'),
     check('password').isStrongPassword().isLength({min:6}).withMessage('Password should be atleast 6 characters long'),
 ]
+
+export const messageValidation = [
+    check('message').notEmpty().withMessage('Parameter message is requied'),
+    check('creatorUserId').notEmpty().withMessage('Parameter creatorUserId is requied'),
+    check('receivedUserId').notEmpty().withMessage('Parameter receivedUserId is requied'),
+    check('messageTimestamp').isDate("mm-dd-yyyy").withMessage('Should be a valid date in format mm-dd-yyyy').notEmpty().withMessage('messageTimestamp field is required'),
+]
