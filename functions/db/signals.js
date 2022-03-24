@@ -25,9 +25,7 @@ export const getSignalsFromDb = async (limit,lastDocId,user) => {
       list  = list.startAfter(lastDoc)
     }
   }
-  console.log("limit",limit)
   list = await list.limit(limit).get()
-  console.log("list.size",list.size)
   var data = []
   var currencies = list.docs.map(item=>item.data().coinId)
   var prices = await GetCoinPrice(currencies,"usd")

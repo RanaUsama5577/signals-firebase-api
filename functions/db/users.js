@@ -24,6 +24,7 @@ export const RegisterUser = async (content) => {
   
   content.userId = user.uid
   content.acceptedTermsTimestamp = new Date(content.acceptedTermsTimestamp)
+  content.subscriptionType = content.subscriptionType
   await db.collection("userData").doc(user.uid).set(content)
     .then(function(){
       console.log("user added");
@@ -37,7 +38,7 @@ export const RegisterUser = async (content) => {
   
 export const GetUserFromId = async (userId)=>{
   console.log("userId",userId)
-  return await db.collection("users").doc(userId).get()
+  return await db.collection("userData").doc(userId).get()
   .then(function(docSnapshot){
     
     if(docSnapshot.exists){
