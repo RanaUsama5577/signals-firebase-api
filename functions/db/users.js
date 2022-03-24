@@ -25,6 +25,7 @@ export const RegisterUser = async (content) => {
   content.userId = user.uid
   content.acceptedTermsTimestamp = new Date(content.acceptedTermsTimestamp)
   content.subscriptionType = content.subscriptionType
+  delete content.password
   await db.collection("userData").doc(user.uid).set(content)
     .then(function(){
       console.log("user added");
