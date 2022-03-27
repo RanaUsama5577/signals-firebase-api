@@ -23,5 +23,4 @@ export const messageValidation = [
     check('message').notEmpty().withMessage('Parameter message is requied'),
     check('creatorUserId').notEmpty().withMessage('Parameter creatorUserId is requied'),
     check('receivedUserId').notEmpty().withMessage('Parameter receivedUserId is requied'),
-    check('messageTimestamp').isDate("mm-dd-yyyy").withMessage('Should be a valid date in format mm-dd-yyyy').notEmpty().withMessage('messageTimestamp field is required'),
 ]
