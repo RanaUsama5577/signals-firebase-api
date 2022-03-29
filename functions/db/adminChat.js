@@ -78,7 +78,6 @@ export const CreateMessagesInDb = async (content,user) => {
         .catch((error) => {
           console.log('Error sending message:', error);
         });
-      return 1;
     })
     .catch(function(error){
       console.log("error",error.message);
