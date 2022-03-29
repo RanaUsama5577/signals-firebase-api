@@ -50,21 +50,37 @@ export const getChatMessagesWithAdmin = async (req, res, next) => {
 export const sendChatMessage = async(req,res,next)=>{
   const content = req.body
   var user = ""
+  var secondUser = ""
   const authorization = req.header('Authorization')??""
   await auth.verifyIdToken(authorization)
   .then(async(decodedToken) => {
     const uid = decodedToken.uid;
     user = await GetUserFromId(uid)
+    secondUser = await GetUserFromId(content.receivedUserId)
     if(user == null){
       var data = {
          error: "User not found",
          status: false,
-       }
-       res.status(401).send(data)
+      }
+      res.status(401).send(data)
     }
-    else if(!user.isAdmin){
+    else if(user.userId != content.creatorUserId){
       var data = {
-        error: "Only admin user can access this api",
+        error: "Login user id should be equal to param creatorUserId",
+        status: false,
+      }
+      res.status(401).send(data)
+    }
+    else if(secondUser.isAdmin == false && user.isAdmin == false){
+      var data = {
+        error: "One user should be admin",
+        status: false,
+      }
+      res.status(401).send(data)
+    }
+    else if(secondUser.isAdmin == true && user.isAdmin == true){
+      var data = {
+        error: "Admin can't chat with each other",
         status: false,
       }
       res.status(401).send(data)
