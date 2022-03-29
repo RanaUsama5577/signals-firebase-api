@@ -71,6 +71,13 @@ export const sendChatMessage = async(req,res,next)=>{
       }
       res.status(401).send(data)
     }
+    else if(user.userId ==  secondUser.userId){
+      var data = {
+        error: "You can't with yourself",
+        status: false,
+      }
+      res.status(401).send(data)
+    }
     else if(secondUser.isAdmin == false && user.isAdmin == false){
       var data = {
         error: "One user should be admin",
