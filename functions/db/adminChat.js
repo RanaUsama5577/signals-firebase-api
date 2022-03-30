@@ -1,4 +1,4 @@
-import {db} from "../config.js"
+import {db,messaging} from "../config.js"
 import * as utils from "../utils/index.js"
 import {GetUserFromId} from "../db/users.js"
 
@@ -20,9 +20,12 @@ export const getAdminMessagingFromDb = async (limit,lastDocId,user) => {
 
 export const CreateMessagesInDb = async (content,user) => {
   var Id = utils.GetTimestamp();
+  var secondUser = await GetUserFromId(content.receivedUserId)
   content.messageTimestamp = new Date();
-  var users = [user.userId,user.receivedUserId];
+  var users = [user.userId,content.receivedUserId];
+  console.log("users",users)
   var checkDoc = await db.collection("adminChat").where("participantsDetails","array-contains",users).limit(1).get()
+  
   if(checkDoc.size == 0){
     await db.collection("adminChat").doc(Id).set({
       creationTime:new Date(),
@@ -57,6 +60,7 @@ export const CreateMessagesInDb = async (content,user) => {
     })
   }
   var timestamp = utils.GetTimestamp();
+  console.log("Id",Id)
   await db.collection("adminChat").doc(Id).collection("dialog").doc(timestamp).set(content)
     .then(function(){
       console.log("message added");
@@ -69,7 +73,7 @@ export const CreateMessagesInDb = async (content,user) => {
           title: 'New message',
           body: content.message
         },
-        to: content.receivedUserId
+        token: secondUser.fcmToken
       };
       return messaging.send(message)
         .then((response) => {
@@ -81,7 +85,7 @@ export const CreateMessagesInDb = async (content,user) => {
     })
     .catch(function(error){
       console.log("error",error.message);
-      throw new Error(e.message)
+      throw new Error(error.message)
     })
 }
   
