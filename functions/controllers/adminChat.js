@@ -28,11 +28,22 @@ export const getChatMessagesWithAdmin = async (req, res, next) => {
     }
     res.status(401).send(data)
   });
-  //Get Signals   
+  //Get Chats
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json(
+    { 
+      errors: errors.array(),
+      status:false,
+    });
+  }   
   var limit = parseInt(content.limit??20)
   var DocId = content.lastDocId??""
+  var userId = content.userId??""
+  var AdminId = content.AdminId??""
+  
   try {
-    var response = await MessagesWithAdmin(limit,DocId,user)
+    var response = await MessagesWithAdmin(limit,DocId,userId,AdminId)
     var data = {
       status:true,
       data:response,
