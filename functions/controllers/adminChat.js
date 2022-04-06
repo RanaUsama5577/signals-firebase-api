@@ -3,7 +3,7 @@ import { validationResult  } from 'express-validator';
 import {GetUserFromId} from "../db/users.js"
 import {auth} from "../config.js"
 
-export const getChatMessagesWithAdmin = async (req, res, next) => {
+export const getChatMessagesWithAdminList = async (req, res, next) => {
   const content = req.query
   console.log("content",content)
   var user = ""
@@ -58,7 +58,7 @@ export const getChatMessagesWithAdmin = async (req, res, next) => {
   }
 }
 
-export const sendChatMessage = async(req,res,next)=>{
+export const postChatMessage = async(req,res,next)=>{
   const content = req.body
   var user = ""
   var secondUser = ""

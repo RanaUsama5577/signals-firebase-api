@@ -60,7 +60,7 @@ export const postSignals = async (req, res, next) => {
   }
 }
 
-export const GetAllSignals = async (req, res, next) => {
+export const GetAllSignalsList = async (req, res, next) => {
   const content = req.query
   console.log("content",content)
   var user = ""
