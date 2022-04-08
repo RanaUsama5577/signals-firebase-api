@@ -15,6 +15,7 @@ const app3 = express()
 const app4 = express()
 const app5 = express()
 const app6 = express()
+const app7 = express()
 
 
 app.use(bodyParser.json());
@@ -38,6 +39,10 @@ app5.use(bodyParser.json());
 app5.use(bodyParser.urlencoded({ extended: true }))
 app5.get('/',getMessageValidation,getChatMessagesWithAdminList)
 
+app7.use(bodyParser.json());
+app7.use(bodyParser.urlencoded({ extended: true }))
+app7.get('/',GetAllSignalsList)
+
 app6.use(bodyParser.json());
 app6.use(bodyParser.urlencoded({ extended: true }))
 app6.post('/',messageValidation,postChatMessage)
@@ -52,6 +57,6 @@ export const createSignal = functions.https.onRequest(app);
 export const RegisterUser = functions.https.onRequest(app2);
 export const getStatistics = functions.https.onRequest(app3);
 export const getGuides = functions.https.onRequest(app4);
-export const getAllSignals = functions.https.onRequest(app5);
+export const getAllSignals = functions.https.onRequest(app7);
 export const getChatMessagesWithAdmin = functions.https.onRequest(app5);
 export const sendChatMessage = functions.https.onRequest(app6);
