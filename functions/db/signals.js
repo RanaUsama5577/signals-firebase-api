@@ -6,7 +6,7 @@ import {GetCoinPrice} from "../services/signals.js"
 export const addSignalInDb = async (content) => {
   var timestamp = utils.GetTimestamp();
   content.SignalTimestamp = new Date();
-  await db.collection("signals").doc(timestamp).set(content)
+  await db.collection("signals").add(content)
     .then(function(){
       console.log("signal added");
       return 1;
@@ -25,7 +25,7 @@ export const getSignalsFromDb = async (limit,lastDocId,user) => {
       list  = list.startAfter(lastDoc)
     }
   }
-  list = await list.limit(limit).get()
+  list = await list.limit(limit).orderBy("SignalTimestamp").get()
   var data = []
   var currencies = list.docs.map(item=>item.data().coinId)
   var prices = await GetCoinPrice(currencies,"usd")

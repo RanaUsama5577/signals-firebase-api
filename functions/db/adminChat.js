@@ -11,7 +11,7 @@ export const getAdminMessagingFromDb = async (limit,lastDocId,userId,AdminId) =>
       list  = list.startAfter(lastDoc)
     }
   }
-  list = await list.limit(limit).get()
+  list = await list.limit(limit).orderBy("messageTimestamp").get()
   var data = []
   list.forEach(function(doc){
       data.push(doc.data())
@@ -81,7 +81,7 @@ export const CreateMessagesInDb = async (content,user) => {
     console.log("error",error.message);
     throw new Error(error.message)
   })
-  await db.collection("adminChat").doc(Id).collection("dialogs").doc(AdminId).collection("messages").doc(timestamp).set(content)
+  await db.collection("adminChat").doc(Id).collection("dialogs").doc(AdminId).collection("messages").add(content)
     .then(function(){
       console.log("message added");
       const message = {

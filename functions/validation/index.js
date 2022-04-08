@@ -26,6 +26,5 @@ export const messageValidation = [
 ]
 
 export const getMessageValidation = [
-    check('userId').notEmpty().withMessage('Parameter userId is requied'),
     check('AdminId').notEmpty().withMessage('Parameter AdminId is requied'),
 ]

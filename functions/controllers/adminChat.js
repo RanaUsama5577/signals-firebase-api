@@ -39,9 +39,8 @@ export const getChatMessagesWithAdminList = async (req, res, next) => {
   }   
   var limit = parseInt(content.limit??20)
   var DocId = content.lastDocId??""
-  var userId = content.userId??""
+  var userId = user.userId??""
   var AdminId = content.AdminId??""
-  
   try {
     var response = await MessagesWithAdmin(limit,DocId,userId,AdminId)
     var data = {
