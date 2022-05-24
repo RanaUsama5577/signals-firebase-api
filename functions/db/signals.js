@@ -18,18 +18,18 @@ export const addSignalInDb = async (content) => {
 }
   
 export const getSignalsFromDb = async (limit,lastDocId,user) => {
-  var list = db.collection("signals")
+  var list = db.collection("signals").limit(limit).orderBy("SignalTimestamp")
   if(lastDocId != ""){
     var lastDoc = await db.collection("signals").doc(lastDocId).get()
     if(lastDoc.exists){
       list  = list.startAfter(lastDoc)
     }
   }
-  list = await list.limit(limit).orderBy("SignalTimestamp").get()
+  list = await list.get()
   var data = []
   var currencies = list.docs.map(item=>item.data().coinId)
   var prices = await GetCoinPrice(currencies,"usd")
-
+  var coinPrice = 
   list.forEach(function(doc){
     var value = doc.data()
     var price =  prices[value.coinId]==undefined?0:prices[value.coinId].usd??0
@@ -41,8 +41,8 @@ export const getSignalsFromDb = async (limit,lastDocId,user) => {
       risk:value.risk,
       scalp:value.scalp,
       stop:value.stop,
+      signalTimestamp:value.SignalTimestamp,
       targetList:value.targetList,
-      signalTimestamp:value.signalTimestamp,
     }
     var fakeval = {
       doc_id:doc.id,
@@ -52,8 +52,8 @@ export const getSignalsFromDb = async (limit,lastDocId,user) => {
       risk:0,
       scalp:0,
       stop:0,
+      signalTimestamp:value.SignalTimestamp,
       targetList:[],
-      signalTimestamp:value.signalTimestamp,
     }
     if(user.subscriptionType == 102){
       data.push(fakeval)
