@@ -16,7 +16,7 @@ export const userValidation = [
     check('acceptedTermsTimestamp').isDate("mm-dd-yyyy").withMessage('Should be a valid date in format mm-dd-yyyy').notEmpty().withMessage('Accepted terms field is required'),
     check('fcmToken').isString().withMessage('Fcm token is string field').notEmpty().withMessage('Fcm token is required'),
     check('os').isNumeric().withMessage('Os is number field').notEmpty().withMessage('Os is required'),
-    check('password').isStrongPassword().isLength({min:6}).withMessage('Password should be atleast 6 characters long'),
+    // check('password').isStrongPassword().isLength({min:6}).withMessage('Password should be atleast 6 characters long'),
 ]
 
 export const messageValidation = [
