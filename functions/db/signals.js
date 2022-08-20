@@ -18,7 +18,7 @@ export const addSignalInDb = async (content) => {
 }
   
 export const getSignalsFromDb = async (limit,lastDocId,user) => {
-  var list = db.collection("signals").limit(limit).orderBy("SignalTimestamp")
+  var list = db.collection("signals").limit(limit).orderBy("SignalTimestamp","desc")
   if(lastDocId != ""){
     var lastDoc = await db.collection("signals").doc(lastDocId).get()
     if(lastDoc.exists){
